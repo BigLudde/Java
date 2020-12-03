@@ -1,0 +1,224 @@
+import java.util.*; // Scanner
+import static java.lang.System.out;
+
+class OperationerMedNaturligaHeltalGivnaSomTeckenstrangar {
+	public static void main(String[] args) {
+		out.println("OPERATIONER MED NATURLIGA HELTAL GIVNA SOM TECKENSTRANGAR\n");
+		// mata in två naturliga heltal
+		Scanner in = new Scanner(System.in);
+		out.println("addera två naturliga heltal:");
+		String tal1 = in.next();
+		String tal2 = in.next();
+		out.println();
+
+		// addera heltalen och visa resultatet
+		String summa = addera(tal1, tal2);
+		visa(tal1, tal2, summa, '+');
+		// subtrahera heltalen och visa resultatet
+
+		out.println("subtration två naturliga heltal:");
+		String tal3 = in.next();
+		String tal4 = in.next();
+		out.println();
+
+		String differens = subtrahera(tal3, tal4);
+		visa(tal3, tal4, differens, '-');
+
+		in.close();
+	}
+
+	// addera tar emot två naturliga heltal givna somteckensträngar, och returnerar
+	// deras
+	// summa som en teckensträng.
+	public static String addera(String tal1, String tal2) {
+		String string1 = tal1;
+		String string2 = tal2;
+
+		if (tal2.length() > tal1.length()) {
+			StringBuilder sb1 = new StringBuilder(tal1);
+			for (int i = 0; i < tal2.length() - tal1.length(); i++)
+				sb1.insert(0, "0");
+
+			string1 = sb1.toString();
+		}
+
+		if (tal1.length() > tal2.length()) {
+			StringBuilder sb2 = new StringBuilder(tal2);
+			for (int i = 0; i < tal1.length() - tal2.length(); i++)
+				sb2.insert(0, "0");
+
+			string2 = sb2.toString();
+		}
+
+		char summan[] = new char[string1.length()];
+		int j = string1.length() - 1;
+		int d = 0;
+
+		while (j > -1) {
+			int ch1 = string1.charAt(j) - 48;
+			int ch2 = string2.charAt(j) - 48;
+			int c = ch1 + ch2;
+			c = c + d;
+
+			if (c < 10)
+				d = 0;
+			if (c > 9) {
+				d = 1;
+				c = c - 10;
+			}
+
+			int u = c + 48;
+			char o = (char) u;
+			summan[j] = o;
+
+			j--;
+		}
+
+		String str = String.valueOf(summan);
+		String stringf = str;
+
+		if (d > 0) {
+			StringBuilder sbf = new StringBuilder(str);
+			sbf.insert(0, "1");
+
+			stringf = sbf.toString();
+		}
+		return stringf;
+	}
+
+	// subtrahera tar emot två naturliga heltal givna somteckensträngar, och
+	// returnerar
+	// deras differens somen teckensträng.
+	// Det första heltalet är inte mindre än det andra heltalet.
+	public static String subtrahera(String tal3, String tal4) {
+		String string1 = tal3;
+		String string2 = tal4;
+
+		if (tal4.length() > tal3.length()) {
+			StringBuilder sb1 = new StringBuilder(tal3);
+			for (int i = 0; i < tal4.length() - tal3.length(); i++)
+				sb1.insert(0, "0");
+
+			string1 = sb1.toString();
+		}
+
+		if (tal3.length() > tal4.length()) {
+			StringBuilder sb2 = new StringBuilder(tal4);
+			for (int i = 0; i < tal3.length() - tal4.length(); i++)
+				sb2.insert(0, "0");
+
+			string2 = sb2.toString();
+		}
+
+		char differensen[] = new char[string1.length()];
+		int j = string1.length() - 1;
+		int d = 0;
+
+		// positiv subtration
+		if (tal3.length() > tal4.length()) {
+			while (j > -1) {
+				int ch1 = string1.charAt(j) - 48;
+				int ch2 = string2.charAt(j) - 48;
+				int c = ch1 - ch2;
+				c = c - d;
+
+				if (c > -1)
+					d = 0;
+				if (c < 0) {
+					d = 1;
+					c = c + 10;
+				}
+
+				int u = c + 48;
+				char o = (char) u;
+				differensen[j] = o;
+
+				j--;
+			}
+		}
+
+		// negativ subtration
+		if (tal3.length() < tal4.length()) {
+			while (j > -1) {
+				int ch1 = string1.charAt(j) - 48;
+				int ch2 = string2.charAt(j) - 48;
+				int c = ch2 - ch1;
+				c = c - d;
+
+				if (c > -1)
+					d = 0;
+				if (c < 0) {
+					d = 1;
+					c = c + 10;
+				}
+
+				int u = c + 48;
+				char o = (char) u;
+				differensen[j] = o;
+
+				j--;
+			}
+		}
+		String str = String.valueOf(differensen);
+		String stringf = str;
+		if (tal3.length() < tal4.length()) {
+			StringBuilder sbf = new StringBuilder(str);
+			sbf.insert(0, "-");
+
+			stringf = sbf.toString();
+		}
+		return stringf;
+	}
+
+	public static String multiplicera(String tal1, String tal2) {
+		int d = Integer.parseInt(tal1);
+		int e = Integer.parseInt(tal2);
+
+		int f = d * e;
+		String produkt = Integer.toString(f);
+
+		return produkt;
+	}
+
+	public static String dividera(String tal1, String tal2) {
+		double x = Integer.parseInt(tal1);
+		double y = Integer.parseInt(tal2);
+
+		double z = x / y;
+		String kvot = Double.toString(z);
+
+		return kvot;
+	}
+
+	// visa visar två givna naturliga heltal, och resultatet av en aritmetisk
+	// operation
+	// utförd i samband med hetalen
+	public static void visa(String tal1, String tal2, String resultat, char operator) {
+		// sätt en lämplig längd på heltalen och resultatet
+		int len1 = tal1.length();
+		int len2 = tal2.length();
+		int len = resultat.length();
+		int maxLen = Math.max(Math.max(len1, len2), len);
+		tal1 = sattLen(tal1, maxLen - len1);
+		tal2 = sattLen(tal2, maxLen - len2);
+		resultat = sattLen(resultat, maxLen - len);
+
+		// visa heltalen och resultatet
+		out.println("  " + tal1);
+		out.println("" + operator + " " + tal2);
+		for (int i = 0; i < maxLen + 2; i++)
+			out.print("-");
+		out.println();
+		out.println("  " + resultat + "\n");
+	}
+
+	// sattLen lägger till ett angivet antal mellanslagi början av en given sträng
+	public static String sattLen(String s, int antal) {
+		StringBuilder sb = new StringBuilder(s);
+		for (int i = 0; i < antal; i++)
+			sb.insert(0, " ");
+
+		return sb.toString();
+	}
+
+}

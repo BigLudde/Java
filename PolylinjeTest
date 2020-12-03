@@ -1,0 +1,17 @@
+
+public class PolylinjeTest {
+	public static void main (String[] args) {
+		
+		Punkt p1 = new Punkt("A", 3, 4);
+		Punkt p2 = new Punkt("B", 1, 2);
+		Punkt p3 = new Punkt("C", 2, 3);
+		Punkt p4 = new Punkt("D", 5, 1);
+		
+		Punkt[] pArray= {p1,p2,p3,p4};
+		Polylinje poly1 = new Polylinje(pArray);
+		
+		System.out.println(poly1.getHorn());
+		System.out.println(poly1.getFarg());
+		System.out.println(poly1.getBredd());
+	}
+}

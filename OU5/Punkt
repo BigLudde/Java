@@ -1,0 +1,89 @@
+public class Punkt{
+	String namn;
+	int x;
+	int y;
+	
+	
+	Punkt(){}
+	
+	Punkt(String namn, int x, int y){
+		this.x = x;
+		this.y = y;
+		this.namn = namn;
+	}
+	
+	Punkt(Punkt b){
+		
+	}
+	
+	public String getNamn() {
+		return namn;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public double avstand (Punkt a) {
+		int xc;
+		int yc;
+		if (y > a.getY()) {
+			yc = y - a.getY();
+			
+			if (x > a.getX()) {
+				xc =  x - a.getX();
+			}
+			else {
+				xc = a.getX() - x;
+			}
+		}
+		
+		else {
+			yc = a.getY() - y;
+			
+			if (x > a.getX()) {
+				xc =  x - a.getX();
+			}
+			else {
+				xc = a.getX() - x;
+			}
+		}
+		double cc = xc*xc + yc*yc;
+		double hyp = Math.sqrt(cc);
+		return hyp;
+	}
+	
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public boolean equals(Punkt o) { 
+		  
+        // If the object is compared with itself then return true   
+        if (o == this) { 
+            return true; 
+        } 
+  
+        /* Check if o is an instance of Complex or not 
+          "null instanceof [type]" also returns false */
+        if (!(o instanceof Punkt)) { 
+            return false; 
+        } 
+          
+        // typecast o to Complex so that we can compare data members  
+        Punkt c = (Punkt) o; 
+          
+        // Compare the data members and return accordingly  
+        return Double.compare(y, c.y) == 0
+                && Double.compare(x, c.x) == 0; 
+    } 
+
+}

@@ -13,7 +13,14 @@ public class Punkt{
 	}
 	
 	Punkt(Punkt b){
-		
+		this.x = b.getX();
+		this.y = b.getY();
+		this.namn = b.getNamn();
+	}
+	
+	public String toString() {
+		String punkt = "(" + this.namn + " " + this.x + " " + this.y + ")";
+		return punkt;
 	}
 	
 	public String getNamn() {

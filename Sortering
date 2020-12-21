@@ -1,0 +1,39 @@
+import java.util.Random;
+
+public class Sortering {
+	public static final Random rand = new Random();
+	public static void main (String[] args) {
+		int n = 10;
+		int[] U = new int[n];
+		int i; int j;
+		int antalinre = 0;
+		
+		for (i = 0; i < n; i++) {
+			U[i] = 40 + rand.nextInt(60);
+		}
+		System.out.println (java.util.Arrays.toString (U) + " start");
+		
+		i = 0;
+		while (i < n - 1)
+		{
+			j = i + 1;
+			while (j < n)
+			{
+				if (U[j]< U[i]) {
+					int a = U[i];
+					int b = U[j];
+					U[j] = a;
+					U[i] = b;
+					antalinre++;
+					System.out.println (java.util.Arrays.toString (U));	
+				}	
+				j++;
+			}
+		System.out.println(antalinre + " iteration " + (i+1));
+		System.out.println (java.util.Arrays.toString (U));	
+		i++;
+		}
+		System.out.println (java.util.Arrays.toString (U));
+		System.out.println(antalinre);
+	}
+}

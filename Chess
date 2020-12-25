@@ -1,0 +1,25 @@
+public class Chess {
+
+	public static void main(String[] args) 
+	{
+		
+		
+		Chessboard board = new Chessboard();
+		//System.out.println(board);
+		
+		Chessboard.Chesspiece[]  pieces = new Chessboard.Chesspiece[1];
+		pieces[0] = board.new Pawn ('w', 'P');
+		
+		byte b = 0, a = 0;
+		
+		a = 3;
+		b = 4;
+		
+		a -= 1;
+		b -= 1;
+		board.setPiece('c', b, pieces[0]);
+		//pieces[0].moveTo('d', b);
+		pieces[0].markReachableFields();
+		System.out.println(board);
+	}
+}

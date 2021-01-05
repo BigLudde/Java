@@ -1,0 +1,221 @@
+public interface Polylinje extends java.lang.Iterable<Punkt> {
+	Punkt[] getHorn();
+
+	String getFarg();
+
+	int getBredd();
+
+	double langd();
+
+	void setFarg(String farg);
+
+	void setBredd(int bredd);
+
+	public void laggTill(Punkt horn);
+
+	void laggTillFramfor(Punkt horn, String hornNamn);
+
+	void taBort(String hornNamn);
+
+	java.util.Iterator<Punkt> iterator();
+}
+
+
+
+class VPolylinje implements Polylinje {
+	private Punkt[] horn;
+	private String farg = "svart";
+	private int bredd = 1;
+	
+
+	public VPolylinje() {
+		this.horn = new Punkt[0];
+	}
+
+	public VPolylinje(Punkt[] horn) {
+		this.horn = new Punkt[horn.length];
+		for (int i = 0; i < horn.length; i++) {
+			this.horn[i] = new Punkt(horn[i]);
+		}
+	}
+
+	public String toString() {
+		StringBuilder polystring = new StringBuilder("{[");
+		for (int i = 0; i < horn.length; i++) {
+			polystring.append(horn[i].toString());
+		}
+		polystring.append("], " + farg + ", " + bredd + "}");
+		return polystring.toString();
+	}
+
+	public Punkt[] getHorn() {
+		Punkt[] copy = new Punkt[horn.length];
+		for (int i = 0; i < horn.length; i++)
+			copy[i] = new Punkt(horn[i]);
+		return copy;
+	}
+
+	public String getFarg() {
+		return farg;
+	}
+
+	public int getBredd() {
+		return bredd;
+	}
+
+	public void setFarg(String farg) {
+		this.farg = farg;
+	}
+
+	public void setBredd(int bredd) {
+		this.bredd = bredd;
+	}
+
+	public double langd() {
+		double langd = 0;
+		for (int i = 1; i < horn.length; i++) {
+			langd += horn[i - 1].avstand(horn[i]);
+		}
+
+		return langd;
+	}
+
+	public void laggTill(Punkt horn) {
+		Punkt[] h = new Punkt[this.horn.length + 1];
+
+		int i = 0;
+		for (i = 0; i < this.horn.length; i++)
+			h[i] = this.horn[i];
+		h[i] = new Punkt(horn);
+		this.horn = h;
+	}
+
+	public void laggTillFramfor(Punkt horn, String hornNamn) {
+		Punkt[] h = new Punkt[this.horn.length + 1];
+
+		int index = -1;
+		int j = 0;
+		for (int i = 0; i < this.horn.length; i++) {
+			if (this.horn[i].getNamn() == hornNamn)
+				index = j++;
+			h[j++] = this.horn[i];
+		}
+		h[index] = new Punkt(horn);
+
+		this.horn = h;
+
+	
+	}
+
+	public void taBort(String hornNamn) {
+		Punkt[] h = new Punkt[this.horn.length - 1];
+
+		int k = 0;
+		int j = 0;
+		for (int i = 0; i < this.horn.length - 1; i++) {
+			if (this.horn[i].getNamn().equals(hornNamn)) {
+				h[j++] = this.horn[i + 1];
+				k = 1;
+			} else {
+				h[j++] = this.horn[i + k];
+			}
+		}
+
+		this.horn = h;
+	}
+	
+	public java.util.Iterator<Punkt> iterator() {
+		iterator<Punkt> punkter = new iterator<Punkt>();
+		return punkter.iterator();
+    }
+}
+
+class NPolylinje implements Polylinje {
+	private static class Nod 
+	{
+		public Punkt horn;
+		public Nod nastaNod;
+
+		public Nod(Punkt horn) 
+		{
+			this.horn = horn;
+			nastaNod = null;
+		}
+	}
+
+	private Nod horn;
+	private String farg = "svart";
+	private int        bredd= 1;// pixlar
+	
+	public NPolylinje ()
+	{
+		this.horn = null;
+	}
+	
+	int c = 1;
+	public NPolylinje (Punkt[] horn)
+	{
+		if (horn.length > 0)
+		{
+			Nod nod = new Nod (new Punkt (horn[0]));
+			this.horn = nod;
+			int pos = 1;
+			while (pos < horn.length)
+			{
+				nod.nastaNod = new Nod (new Punkt(horn[pos++]));
+				nod = nod.nastaNod;
+				i++;
+			}
+		}
+	}
+	// ytterligare kod här
+	public String toString() {
+		StringBuilder polystring = new StringBuilder("{[");
+		for (int i = 0; i < horn.length; i++) {
+			polystring.append(horn[i].toString());
+		}
+		polystring.append("], " + farg + ", " + bredd + "}");
+		return polystring.toString();
+	}
+	
+	public Punkt[] getHorn() {
+		Punkt[] copy = new Punkt[c];
+		Punkt h = this.horn.horn;
+		for (int i = 0; i < c; i++) {
+			copy[i] = h;
+			h = this.horn.nastaNod.horn;
+		}
+		return copy;
+	}
+
+	public String getFarg() {
+		return farg;
+	}
+
+	public int getBredd() {
+		return bredd;
+	}
+
+	double langd();
+
+	public void setFarg(String farg) {
+		this.farg = farg;
+	}
+
+	public void setBredd(int bredd) {
+		this.bredd = bredd;
+	}
+
+	public void laggTill(Punkt horn);
+
+	void laggTillFramfor(Punkt horn, String hornNamn);
+
+	void taBort(String hornNamn);
+
+	java.util.Iterator<Punkt> iterator();
+}
+
+//TODO
+//läs på om iterable och fixa iterator metod
+//testa getHorn i Npolylinje
+//fixa toString Npolylinje

@@ -19,6 +19,7 @@ public class Chessboard {
 		}
 
 		public void mark() {
+			System.out.println("markeded");
 			marked = true;
 		}
 
@@ -41,11 +42,6 @@ public class Chessboard {
 
 	private Field[][] fields;
 	
-	public void setPiece (char row, byte column, Chesspiece piece) {
-		int r = row - FIRST_ROW;
-		Chessboard.this.fields[r][column].put(piece);
-	}
-
 	public Chessboard() {
 		fields = new Field[NUMBER_OF_ROWS][NUMBER_OF_COLUMNS];
 		char row = 0;
@@ -79,10 +75,20 @@ public class Chessboard {
 		return boardstring.toString();
 	}
 
+	@SuppressWarnings("serial")
+	class NotValidFieldException extends Exception{
+		public NotValidFieldException (String cok) {
+			super(cok);
+		}
+	}
+	
 	public boolean isValidField(char row, byte column) {
-		if (96 < row && row < 105 && -1 < column && column < 9)
-			return true;
-		else return false;		
+		int r = row;
+		boolean b = true;
+		if (96 < r && r < 105 && -1 < column && column < 9)
+			b = true;
+		else b = false;
+		return b;
 	}
 
 	public abstract class Chesspiece {
@@ -108,22 +114,19 @@ public class Chessboard {
 			return Chessboard.this.isValidField(row, column);
 		}
 		
-		class NotValidFieldException extends Exception{
-			public NotValidFieldException (String cok) {
-				super(cok);
-			}
-		}
-
-		public void moveTo(char row, byte column) throws NotValidFieldException {
+		public void moveTo(char row, byte column) /*throws NotValidFieldException*/ {
 			if (!Chessboard.this.isValidField(row, column))
-				throw new NotValidFieldException("bad field: " + row + column);
-
+				System.out.println("stop!"); 
+			else {
+//				throw new NotValidFieldException("bad field: " + row + column);
 			this.row = row;
 			this.column = column;
 
 			int r = row - FIRST_ROW;
-			int c = column - FIRST_COLUMN + 1;
+			int c = column - FIRST_COLUMN;
+			System.out.println(column);
 			Chessboard.this.fields[r][c].put(this);
+			}
 		}
 
 		public void moveOut() {
@@ -139,7 +142,6 @@ public class Chessboard {
 			super(color, name);
 		}
 
-		//?????????????????????????????????????????????????????????????????????
 		public void markReachableFields() {
 			byte col = (byte) (column + 1);
 			if (Chessboard.this.isValidField(row, col)) {
@@ -174,3 +176,4 @@ public class Chessboard {
 //	public class King extends Chesspiece {
 //	}
 }
+

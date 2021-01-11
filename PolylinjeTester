@@ -1,0 +1,46 @@
+
+public class Polylinjetest {
+	public static void main(String[] args) {
+
+		Punkt p1 = new Punkt("A", 3, 4);
+		Punkt p2 = new Punkt("B", 1, 2);
+		Punkt p3 = new Punkt("C", 2, 3);
+		Punkt p4 = new Punkt("D", 5, 1);
+
+		Punkt p5 = new Punkt("E", 4, 6);
+		Punkt p6 = new Punkt("F", 5, 3);
+
+		Punkt[] pArray = { p1, p2, p3, p4 };
+		VPolylinje poly1 = new VPolylinje(pArray);
+		NPolylinje poly2 = new NPolylinje(pArray);
+
+//		System.out.println(poly1.getHorn());
+//		System.out.println(poly1.getFarg());
+//		System.out.println(poly1.getBredd());
+		System.out.println(poly1.langd() + " Vp");
+		System.out.println(poly2.langd() + " Np");
+//
+		System.out.println(poly1);
+		System.out.println(poly2);
+//
+		poly2.laggTill(p5);
+		System.out.println(poly2);
+//
+		poly2.laggTillFramfor(p6, "B");
+		System.out.println(poly2);
+//
+//		poly1.taBort("B");
+//		System.out.println(poly1);
+//
+//		Polylinje.PolylinjeIterator shunt = poly1.new PolylinjeIterator();
+//		shunt.horn();
+//
+//		while (true) {
+//			if (shunt.finnsHorn())
+//				System.out.println(shunt.horn());
+//			else
+//				break;
+//			shunt.gaFram();
+//		}
+	}
+}

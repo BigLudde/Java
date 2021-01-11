@@ -11,6 +11,13 @@ public class Sortering {
 		for (i = 0; i < n; i++) {
 			U[i] = 40 + rand.nextInt(60);
 		}
+		
+//		int o = 20;
+//		for (i = 0; i < n; i++) {
+//			U[i] = o;
+//			o--;
+//		}
+		
 		System.out.println (java.util.Arrays.toString (U) + " start");
 		
 		i = 0;
@@ -29,11 +36,14 @@ public class Sortering {
 				}	
 				j++;
 			}
-		System.out.println(antalinre + " iteration " + (i+1));
+		System.out.println(antalinre + " gånger iteration " + (i+1));
 		System.out.println (java.util.Arrays.toString (U));	
 		i++;
 		}
+		
 		System.out.println (java.util.Arrays.toString (U));
 		System.out.println(antalinre);
+		double a = antalinre/2;
+		System.out.println(a + " sekunder");
 	}
 }

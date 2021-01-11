@@ -1,3 +1,4 @@
+
 public interface Polylinje extends java.lang.Iterable<Punkt> {
 	Punkt[] getHorn();
 
@@ -125,11 +126,24 @@ class VPolylinje implements Polylinje {
 	}
 	
 	public java.util.Iterator<Punkt> iterator() {
-		iterator<Punkt> punkter = new iterator<Punkt>();
-		return punkter.iterator();
+		return new Vpolyiterator();
     }
+	
+	private class Vpolyiterator implements java.util.Iterator<Punkt> {
+		private int index = 0;
+		public boolean hasNext() {
+			return index + 1 < horn.length;
+		}
+		public Punkt next() {
+			int add = 1;
+			if (horn[index + 1] == null) add = 2;
+			return horn[index + add];
+		}
+	}
 }
 
+
+//=================================================================================================================//
 class NPolylinje implements Polylinje {
 	private static class Nod 
 	{
@@ -164,15 +178,15 @@ class NPolylinje implements Polylinje {
 			{
 				nod.nastaNod = new Nod (new Punkt(horn[pos++]));
 				nod = nod.nastaNod;
-				i++;
 			}
 		}
 	}
 	// ytterligare kod här
 	public String toString() {
 		StringBuilder polystring = new StringBuilder("{[");
-		for (int i = 0; i < horn.length; i++) {
-			polystring.append(horn[i].toString());
+		java.util.Iterator<Punkt> nIterator = new Npolyiterator();
+		while(nIterator.hasNext()) {
+			polystring.append(nIterator.next());
 		}
 		polystring.append("], " + farg + ", " + bredd + "}");
 		return polystring.toString();
@@ -196,7 +210,17 @@ class NPolylinje implements Polylinje {
 		return bredd;
 	}
 
-	double langd();
+	public double langd() {
+		double langd = 0;
+		java.util.Iterator<Punkt> nIterator = new Npolyiterator();
+		Punkt prev = nIterator.next();
+		while(nIterator.hasNext()) {
+			Punkt temp = nIterator.next();
+			langd += temp.avstand(prev);
+			prev = temp;
+		}
+		return langd;
+	}
 
 	public void setFarg(String farg) {
 		this.farg = farg;
@@ -206,16 +230,57 @@ class NPolylinje implements Polylinje {
 		this.bredd = bredd;
 	}
 
-	public void laggTill(Punkt horn);
+	public void laggTill(Punkt horn) {
+		Nod nod = new Nod (new Punkt (horn));
+		nod.nastaNod = this.horn;
+		this.horn = nod;
+	}
 
-	void laggTillFramfor(Punkt horn, String hornNamn);
+	public void laggTillFramfor(Punkt horn, String hornNamn) {
+		java.util.Iterator<Punkt> nIterator = new Npolyiterator();
+		if (hornNamn == this.horn.horn.getNamn()) {
+			Nod nod = new Nod (new Punkt (horn));
+			nod.nastaNod = this.horn;
+			this.horn = nod;
+		}
+		else {	
+			while(nIterator.hasNext()) {
+				
+				if (nIterator.next().getNamn() == hornNamn) {
+					Nod tnod = null;
+					Nod nod = new Nod (new Punkt (horn));
+					tnod = this.horn;
+					nod.nastaNod = tnod;
+					nod.nastaNod = this.horn;
+					break;
+				}
+			}
+		}
+	}
 
-	void taBort(String hornNamn);
+	public void taBort(String hornNamn) {
+		
+	}
 
-	java.util.Iterator<Punkt> iterator();
+	public java.util.Iterator<Punkt> iterator(){
+		return new Npolyiterator();
+	}
+	
+	private class Npolyiterator implements java.util.Iterator<Punkt>{
+		private Nod currentNod = horn;
+		public Punkt next() {
+			Nod n = currentNod;
+			currentNod = currentNod.nastaNod;
+			return n.horn;
+		}
+		public boolean hasNext() {
+			return currentNod != null;
+		}
+		public void remove() {
+			
+		}
+	}
 }
 
-//TODO
-//läs på om iterable och fixa iterator metod
-//testa getHorn i Npolylinje
-//fixa toString Npolylinje
+//fixa remove till iteratorn
+//behövs till läggtillframför 

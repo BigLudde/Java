@@ -114,11 +114,9 @@ public class Chessboard {
 			return Chessboard.this.isValidField(row, column);
 		}
 		
-		public void moveTo(char row, byte column) /*throws NotValidFieldException*/ {
+		public void moveTo(char row, byte column) throws NotValidFieldException {
 			if (!Chessboard.this.isValidField(row, column))
-				System.out.println("stop!"); 
-			else {
-//				throw new NotValidFieldException("bad field: " + row + column);
+				throw new NotValidFieldException("bad field: " + row + column);
 			this.row = row;
 			this.column = column;
 
@@ -126,7 +124,6 @@ public class Chessboard {
 			int c = column - FIRST_COLUMN;
 			System.out.println(column);
 			Chessboard.this.fields[r][c].put(this);
-			}
 		}
 
 		public void moveOut() {
@@ -176,4 +173,3 @@ public class Chessboard {
 //	public class King extends Chesspiece {
 //	}
 }
-
